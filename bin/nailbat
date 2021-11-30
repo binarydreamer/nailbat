@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-nailbat = Nailbat.new
+require "nailbat"
+
+Nailbat::Application.new.run
