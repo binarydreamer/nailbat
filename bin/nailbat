@@ -2,4 +2,4 @@
 
 require "nailbat"
 
-Nailbat::Application.new.run
+Nailbat::Application.new(ARGV).run
