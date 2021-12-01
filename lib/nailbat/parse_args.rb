@@ -1,14 +1,20 @@
 class Nailbat::ParseArgs
-  def initialize(args)
-    @args = args
-  end
+  attr_accessor :first, :arg_string
 
-  def script
-    @args[0]
+  def initialize(args)
+    @first = args[0]
+    tmp = args.dup
+    tmp.shift
+    @arg_string = tmp
   end
 
   def script?
-    return false if @args.length == 0
-    (@args[0] !~ /\A\-/)
+    return false unless @first
+    (@first !~ /\A\-/)
+  end
+
+  def flag?
+    return false unless @first
+    (@first =~ /\A\-/)
   end
 end
