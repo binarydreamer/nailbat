@@ -1,11 +1,9 @@
 class Nailbat::ParseArgs
-  attr_accessor :first, :arg_string
+  attr_accessor :first, :args_string
 
   def initialize(args)
     @first = args[0]
-    tmp = args.dup
-    tmp.shift
-    @arg_string = tmp
+    @args_string = args[1..-1]
   end
 
   def script?

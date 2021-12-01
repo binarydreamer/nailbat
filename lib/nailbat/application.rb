@@ -4,7 +4,12 @@ class Nailbat::Application
   end
 
   def run
-    scripts = Nailbat::Scripts.load
+    if @args.flag? && @args.first == "-v"
+      puts Nailbat::VERSION
+      exit
+    end
+
+    scripts = Nailbat::ScriptsScanner.load
 
     if @args.script?
       script = scripts.find { |s| s["name"] == @args.first }
@@ -14,28 +19,14 @@ class Nailbat::Application
       end
       picked = script["path"]
     elsif @args.flag?
-      if @args.first == "-v"
-        puts Nailbat::VERSION
-      end
+      #placeholder for now
+      exit
     else
       picked = Nailbat::ScriptPicker.pick(scripts)
     end
 
-    script = File.read(picked)
-    lines = script.lines
-    found = lines.index { |s| s.strip === "..." }
-    script = lines[found+1..-1].join
-
-    temp_file = Tempfile.new('script')
-    temp_file.write script
-    temp_file.flush
-    temp_file.close
-
-    FileUtils.chmod "+x", temp_file.path
-    out = `#{temp_file.path} #{@args.arg_string}`
-    puts out
-
-    temp_file.unlink
+    runner = Nailbat::ScriptRunner.new(picked, args: @args.args_string)
+    runner.run
   end
 end
 

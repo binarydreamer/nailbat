@@ -1,4 +1,4 @@
-class Nailbat::Scripts
+class Nailbat::ScriptsScanner
   def self.load
     out = []
     dir = File.join(File.expand_path('~'), '.nailbat')
